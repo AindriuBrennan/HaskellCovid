@@ -26,7 +26,7 @@ import Text.Blaze.Colonnade ( encodeHtmlTable )
 import Fmt (pretty, Buildable)
 
 import CovidData (CovidData(statDate, covidCases, icuCases, male, female, aged1to4, aged5to14,aged15to24, aged25to34, aged35to44, aged45to54, aged55to64, aged65up))
-import StatReport ( StatEntry(covfield, minVal, maxVal, daysBetweenMinMax))
+import StatReport ( StatEntry(covfield, meanVal, minVal, maxVal, daysBetweenMinMax))
 
 viaFmt :: Buildable a => a -> Html
 viaFmt = text . pretty
@@ -35,6 +35,7 @@ viaFmt = text . pretty
 colStats :: Colonnade Headed StatEntry Html
 colStats = mconcat
     [ headed "Covid Field" (i . string . show . covfield)
+    , headed "Mean" (viaFmt .meanVal)
     , headed "Min" (viaFmt . minVal)
     , headed "Max" (viaFmt . maxVal)
     , headed "Days between Min/Max" (viaFmt . daysBetweenMinMax)

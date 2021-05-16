@@ -37,10 +37,14 @@ data StatValue = StatValue {    --format calculated fields
 
 data StatEntry = StatEntry {      --- used for storing stat results
     covfield :: CovField,
+    meanVal :: StatValue,
     minVal :: StatValue,
     maxVal :: StatValue,
     daysBetweenMinMax :: Int
 }
+
+mean :: (Fractional a, Foldable t) => t a -> a
+mean xs = sum xs /fromIntegral (length xs)
 
 computeMinMaxDays :: (Ord a, Foldable t) => 
 
@@ -52,7 +56,7 @@ computeMinMaxDays get covid = (get minQ, get maxQ, days)
     maxQ = maximumBy cmp covid
     days = fromIntegral $ abs $ diffDays (statDate minQ) (statDate maxQ)
 
-
+-- I think using the disagregate function would be best in here but I am not fully sure
 statInfo :: (Functor t, Foldable t) => t CovidData -> [StatEntry]
 statInfo covid = fmap covFieldStatInfo [minBound .. maxBound]
 
@@ -65,6 +69,8 @@ statInfo covid = fmap covFieldStatInfo [minBound .. maxBound]
         (mn, mx, daysBetweenMinMax) =
               computeMinMaxDays get covid
         decPlaces = decimalPlacesByCovField covfield
+        meanVal = StatValue decimalPlacesFloating
+                            (mean $ fmap get covid)
         minVal = StatValue decPlaces mn
         maxVal = StatValue decPlaces mx
       in StatEntry {..}
@@ -76,6 +82,7 @@ instance Buildable StatValue where
 instance Buildable StatEntry where
   build StatEntry {..} =
           ""+||covfield||+": "
+            +|meanVal|+" (mean), "
             +|minVal|+" (min), "
             +|maxVal|+" (max), "
             +|daysBetweenMinMax|+" (days)"
@@ -85,6 +92,7 @@ textReport = ascii colStats
   where 
     colStats = mconcat
       [ headed "Covid Field" (show . covfield)
+      , headed "Mean" (pretty . meanVal)
       , headed "Min" (pretty. minVal)
       , headed "Max" (pretty. maxVal)
       , headed "Days between Min/Max" (pretty . daysBetweenMinMax)

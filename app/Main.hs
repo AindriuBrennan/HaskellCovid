@@ -3,7 +3,7 @@
 
 module Main where
 
-import Contol.Monad (when, unless)
+import Control.Monad (when, unless)
 import qualified Data.ByteString.Lazy as BL (readFile, writeFile)
 import Data.Csv (decodeByName)
 import Data.Foldable (toList)
@@ -24,7 +24,9 @@ generateReports Params {..} covidstats = do
   where
    statInfo' = statInfo covidstats
    textRpt = textReport statInfo'
-   htmlRpt = htmlReport title covidstats statInfo'
+   htmlRpt = htmlReport title covidstats statInfo' [chartFname | chart]
+   
+   chartFname = "chart.svg" 
    title = "Covid Data"
 
    saveHtml Nothing _ = pure ()

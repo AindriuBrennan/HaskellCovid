@@ -49,7 +49,7 @@ instance FromNamedRecord CovidData where
         <*> m .: "Aged65up"
 
 instance FromField Day where
-    parseField = parseTimeM True defaultTimeLocale "%Y/%m/%d %H:%M:%S+%s" . unpack
+    parseField = parseTimeM True defaultTimeLocale "%d/%m/%Y" . unpack
         
 data CovField =  CovidCasesConfirmed | RequiringICUCovidCases | Male | Female | Unknown | Aged1to4 | Aged5to14 | Aged15to24 | Aged25to34 | Aged35to44 | Aged45to54 | Aged55to64 | Aged65up 
     deriving (Eq, Ord, Show, Enum, Bounded)
