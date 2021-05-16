@@ -1,0 +1,81 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: e30c624b83f7a144cc18d67860602a87ec333aba4bebbeead09690a331f091e7
+
+name:           assignment2
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/assignment2#readme>
+homepage:       https://github.com/githubuser/assignment2#readme
+bug-reports:    https://github.com/githubuser/assignment2/issues
+author:         Andrew Brennan
+maintainer:     andrew-brennan@live.com
+copyright:      andrew brennan
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/assignment2
+
+library
+  exposed-modules:
+      Charts
+      HtmlReport
+      Params
+      CovidData
+      StatReport
+      Lib
+  other-modules:
+      Paths_assignment2
+  hs-source-dirs:
+      src
+  build-depends:
+      Chart >=1.8 && <1.10
+    , Chart-diagrams >=1.8 && <1.10
+    , base >=4.7 && <5
+    , blaze-colonnade >=1.1 && <1.3
+    , blaze-html >=0.9 && <0.10
+    , bytestring >=0.10 && <0.12
+    , cassava >=0.5 && <0.6
+    , colonnade >=1.1 && <1.3
+    , fmt >=0.5 && <0.7
+    , optparse-applicative >=0.14 && <0.17
+    , text >=1.2 && <1.3
+    , time >=1.8 && <1.12
+  default-language: Haskell2010
+
+executable assignment2-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_assignment2
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      assignment2
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite assignment2-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_assignment2
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      assignment2
+    , base >=4.7 && <5
+    , bytestring >=0.10 && <0.12
+    , cassava >=0.5 && <0.6
+    , text >=1.2 && <1.3
+  default-language: Haskell2010
